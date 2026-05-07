@@ -2,7 +2,7 @@
 
 机器学习驱动的 A 股多因子 Alpha 挖掘与回测框架。
 
-This repository implements an end-to-end **Machine Learning Alpha Research** workflow for public A-share daily price-volume data downloaded through AKShare. It is designed as a reproducible quant research project for QR internship interviews: data download, cleaning, stock-pool filtering, label construction, alpha factor engineering, IC/RankIC analysis, tree/MLP model training, chronological out-of-sample validation, portfolio backtesting, transaction-cost sensitivity, robustness checks, and a LaTeX research report.
+This repository implements an end-to-end **Machine Learning Alpha Research** workflow for public A-share daily price-volume data downloaded through AKShare. It is a self-directed research project built out of interest in quantitative equity research: data download, cleaning, stock-pool filtering, label construction, alpha factor engineering, IC/RankIC analysis, tree/MLP model training, chronological out-of-sample validation, portfolio backtesting, transaction-cost sensitivity, robustness checks, and a LaTeX research report.
 
 > This project is a research framework, not investment advice. The included AKShare run uses public historical daily data and a medium-size demonstration universe; it does not claim stable profitability or production tradability.
 
@@ -77,7 +77,7 @@ alpha-ml-research/
     └── final_report.pdf
 ```
 
-`resume/` and `GITHUB_UPLOAD.md` are intentionally ignored for GitHub upload per the project owner's request.
+Generated model artifacts and large intermediate datasets are intentionally excluded from version control.
 
 ## Alpha Factors
 
@@ -219,18 +219,6 @@ xelatex final_report.tex
 - Test intraday or high-frequency order-book features.
 - Compare GBDT models with Temporal CNN or Transformer only after stronger data validation.
 
-## GitHub Upload
-
-This repository is prepared so that `resume/` and `GITHUB_UPLOAD.md` are ignored. Large raw data, processed matrices, and model artifacts are also ignored.
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: AKShare machine learning alpha research framework"
-gh auth login
-gh repo create alpha-ml-research --public --source=. --remote=origin --push
-```
-
 ## Disclaimer
 
-This repository is for research and interview demonstration purposes. It is not investment advice and does not claim stable real-market profitability.
+This repository is for research and educational purposes. It is not investment advice and does not claim stable real-market profitability.
