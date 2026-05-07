@@ -1,0 +1,99 @@
+project:
+  name: "A-Share Machine Learning Alpha Research and Backtesting Framework"
+  seed: 42
+  data_mode: "akshare"
+
+paths:
+  sample_data: "data/sample/a_share_sample_daily.parquet"
+  raw_data: "data/sample/a_share_akshare_daily.parquet"
+  processed_data: "data/processed/features.parquet"
+  predictions: "data/processed/predictions.parquet"
+  model_dir: "models"
+  figures_dir: "reports/figures"
+  tables_dir: "reports/tables"
+
+sample_data:
+  start_date: "2021-01-01"
+  end_date: "2024-12-31"
+  n_stocks: 80
+
+akshare:
+  start_date: "20210101"
+  end_date: "20241231"
+  adjust: "qfq"
+  source: "sina"
+  use_spot_universe: false
+  universe_size: 100
+  min_valid_stocks: 80
+  retry_times: 3
+  retry_sleep_seconds: 1.5
+
+data:
+  min_history_days: 180
+  min_price: 1.0
+  max_missing_ratio: 0.25
+
+features:
+  winsorize_lower: 0.01
+  winsorize_upper: 0.99
+  neutralize_market_cap: false
+
+labels:
+  primary: "y_5d"
+  horizons: [1, 5, 10, 20]
+  price_col_preference: "open"
+
+validation:
+  train_ratio: 0.60
+  val_ratio: 0.20
+  test_ratio: 0.20
+
+factor_analysis:
+  n_groups: 5
+
+models:
+  random_forest:
+    n_estimators: 220
+    max_depth: 8
+    min_samples_leaf: 50
+    max_features: "sqrt"
+    n_jobs: -1
+    random_state: 42
+  xgboost:
+    n_estimators: 240
+    max_depth: 4
+    learning_rate: 0.03
+    subsample: 0.80
+    colsample_bytree: 0.80
+    reg_alpha: 0.0
+    reg_lambda: 5.0
+    objective: "reg:squarederror"
+    random_state: 42
+    n_jobs: -1
+  lightgbm:
+    num_leaves: 31
+    learning_rate: 0.03
+    n_estimators: 320
+    max_depth: -1
+    min_child_samples: 50
+    subsample: 0.80
+    colsample_bytree: 0.80
+    reg_alpha: 0.0
+    reg_lambda: 5.0
+    random_state: 42
+    n_jobs: -1
+  mlp:
+    hidden_dims: [128, 64]
+    dropout: 0.20
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    batch_size: 512
+    max_epochs: 50
+    patience: 10
+
+backtest:
+  rebalance_every: 5
+  top_quantile: 0.10
+  default_cost: 0.001
+  cost_levels: [0.0005, 0.0010, 0.0020]
+  annual_trading_days: 252
